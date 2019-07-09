@@ -43,7 +43,7 @@ class BranchPredictor(SimObject):
     RASSize = Param.Unsigned(16, "RAS size")
     instShiftAmt = Param.Unsigned(2, "Number of bits to shift instructions by")
 
-    useIndirect = Param.Bool(True, "Use indirect branch predictor")
+    useIndirect = Param.Bool(False, "Use indirect branch predictor")
     indirectHashGHR = Param.Bool(True, "Hash branch predictor GHR")
     indirectHashTargets = Param.Bool(True, "Hash path history targets")
     indirectSets = Param.Unsigned(256, "Cache sets for indirect predictor")
@@ -53,15 +53,29 @@ class BranchPredictor(SimObject):
         "Previous indirect targets to use for path history")
 
 
-
 class LocalBP(BranchPredictor):
     type = 'LocalBP'
     cxx_class = 'LocalBP'
     cxx_header = "cpu/pred/2bit_local.hh"
 
-    localPredictorSize = Param.Unsigned(2048, "Size of local predictor")
+    localPredictorSize = Param.Unsigned(1024, "Size of local predictor ")
     localCtrBits = Param.Unsigned(2, "Bits per counter")
 
+class GshareBP(BranchPredictor):
+    type = 'GshareBP'
+    cxx_class = 'GshareBP'
+    cxx_header = "cpu/pred/gshare.hh"
+
+    localPredictorSize = Param.Unsigned(1024, "Size of local predictor ")
+    localCtrBits = Param.Unsigned(2, "Bits per counter")
+
+class Gshare_SpeculativeBP(BranchPredictor):
+    type = 'Gshare_SpeculativeBP'
+    cxx_class = 'Gshare_SpeculativeBP'
+    cxx_header = "cpu/pred/gshare_speculative.hh"
+
+    localPredictorSize = Param.Unsigned(1024, "Size of local predictor ")
+    localCtrBits = Param.Unsigned(2, "Bits per counter")
 
 class TournamentBP(BranchPredictor):
     type = 'TournamentBP'
